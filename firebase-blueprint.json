@@ -1,0 +1,30 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A food product or beverage sold by Production Lakay.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the product" },
+        "description": { "type": "string", "description": "Longer description of the product" },
+        "price": { "type": "number", "description": "Base price in Gourdes" },
+        "prices": { 
+          "type": "array", 
+          "description": "List of price variations (e.g. for different sizes or units)" 
+        },
+        "imageUrl": { "type": "string", "description": "URL to the product image" },
+        "category": { "type": "string", "description": "Category like 'Cornet', 'Jus', etc." },
+        "unit": { "type": "string", "description": "Unit of measure (Unité, Boîte, Cup)" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "category", "createdAt"]
+    }
+  },
+  "firestore": {
+    "products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of all products in the shop."
+    }
+  }
+}
