@@ -1,79 +1,8 @@
-```
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
+node_modules/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Virtual Environment
-venv/
-ENV/
-
-# Database
-db.sqlite3
-
-# Environment variables
+dist-ssr/
+*.local
 .env
-
-# IDE
-.vscode/
-.idea/
-
-# Dependencies
-pip/
-setuptools/
-wheel/
-distribute/
-
-# Logs
-*.log
-
-# Coverage
-.coverage
-coverage/
-htmlcov/
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Django
-*.log
-local_settings.py
-db.sqlite3
+.env.*
+!.env.example
 .DS_Store
-
-# Pytest
-.pytest_cache/
-```
