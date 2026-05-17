@@ -9,11 +9,17 @@ export interface Product {
   description?: string;
   price?: number; // Base price
   prices?: ProductPrice[]; // Variations
-  imageUrl?: string;
+  // Backend retourne snake_case
+  image_url?: string;
   gallery?: string[];
   category: string;
   unit?: string;
-  createdAt: any;
+  is_available?: boolean;
+  created_at?: any;
+  updated_at?: any;
+  // Alias camelCase (compatibilité locale)
+  imageUrl?: string;
+  createdAt?: any;
   updatedAt?: any;
 }
 

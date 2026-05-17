@@ -26,18 +26,33 @@ export default function Products() {
 
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retrying, setRetrying] = useState(false);
+
+  const fetchProducts = async (attempt = 1) => {
+    try {
+      setError(null);
+      if (attempt > 1) setRetrying(true);
+      const res = await fetch('/api/products');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setProducts(data);
+      setLoading(false);
+      setRetrying(false);
+    } catch (err) {
+      if (attempt < 4) {
+        // Render cold start peut prendre 30-60s — on réessaie
+        setTimeout(() => fetchProducts(attempt + 1), attempt * 2000);
+      } else {
+        setError('Le serveur est temporairement indisponible. Rechargez la page dans quelques instants.');
+        setLoading(false);
+        setRetrying(false);
+      }
+    }
+  };
 
   useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
+    fetchProducts();
   }, []);
 
   const popularSearches = ['Jus Melon', 'Jus Cerise', 'Jus Grenadia', 'Jus Mandarine', 'Jus Citron', 'Cornet boîte'];
@@ -199,8 +214,21 @@ export default function Products() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-20">
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
             <div className="w-12 h-12 border-4 border-brand-green/20 border-t-brand-green rounded-full animate-spin"></div>
+            {retrying && (
+              <p className="text-slate-400 text-sm animate-pulse">Connexion au serveur en cours...</p>
+            )}
+          </div>
+        ) : error ? (
+          <div className="text-center py-24 bg-white rounded-[3rem] border-2 border-dashed border-red-100 flex flex-col items-center justify-center space-y-6">
+            <p className="text-slate-500 max-w-sm mx-auto">{error}</p>
+            <button
+              onClick={() => { setLoading(true); fetchProducts(); }}
+              className="bg-brand-green text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-brand-orange transition-all"
+            >
+              Réessayer
+            </button>
           </div>
         ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">

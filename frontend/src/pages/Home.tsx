@@ -11,12 +11,22 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/settings')
       .then(res => res.json())
-      .then(data => setSettings(data));
-
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(data => setFeaturedProducts(data.slice(0, 4)))
+      .then(data => setSettings(data))
       .catch(console.error);
+
+    const fetchWithRetry = async (attempt = 1): Promise<void> => {
+      try {
+        const res = await fetch('/api/products');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        setFeaturedProducts(data.slice(0, 4));
+      } catch {
+        if (attempt < 4) {
+          setTimeout(() => fetchWithRetry(attempt + 1), attempt * 2000);
+        }
+      }
+    };
+    fetchWithRetry();
   }, []);
   return (
     <div className="flex flex-col overflow-hidden">
