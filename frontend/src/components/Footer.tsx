@@ -94,7 +94,7 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-widest text-white/40">
           <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-            <p><a href="/admin" className="hover:text-brand-yellow transition-colors cursor-pointer" title="Espace réservé">©</a> {currentYear} Production Lakay. Tous droits réservés.</p>
+            <p><span onClick={() => { window.location.href = '/admin'; }} className="hover:text-brand-yellow transition-colors cursor-pointer" title="Espace réservé">©</span> {currentYear} Production Lakay. Tous droits réservés.</p>
           </div>
           <p className="mt-4 md:mt-0 italic opacity-60">Fait avec passion pour Haïti</p>
         </div>
